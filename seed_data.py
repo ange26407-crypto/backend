@@ -35,6 +35,9 @@ print("\n[1/6] Création des médecins...")
 medecins_data = [
     {"username": "dr_martin", "email": "dr.martin@healthtic.com", "password": "medecin123", "first_name": "Jean", "last_name": "Martin"},
     {"username": "dr_dubois", "email": "dr.dubois@healthtic.com", "password": "medecin123", "first_name": "Marie", "last_name": "Dubois"},
+    {"username": "dr_laurent", "email": "dr.laurent@healthtic.com", "password": "medecin123", "first_name": "Pierre", "last_name": "Laurent"},
+    {"username": "dr_rousseau", "email": "dr.rousseau@healthtic.com", "password": "medecin123", "first_name": "Sophie", "last_name": "Rousseau"},
+    {"username": "dr_bernard", "email": "dr.bernard@healthtic.com", "password": "medecin123", "first_name": "Luc", "last_name": "Bernard"},
 ]
 
 medecins = []
@@ -68,6 +71,16 @@ patients_data = [
     {"username": "patient_claire", "email": "claire@example.com", "password": "patient123", "first_name": "Claire", "last_name": "Bernard"},
     {"username": "patient_david", "email": "david@example.com", "password": "patient123", "first_name": "David", "last_name": "Moreau"},
     {"username": "patient_emma", "email": "emma@example.com", "password": "patient123", "first_name": "Emma", "last_name": "Petit"},
+    {"username": "patient_felix", "email": "felix@example.com", "password": "patient123", "first_name": "Felix", "last_name": "Garnier"},
+    {"username": "patient_gabrielle", "email": "gabrielle@example.com", "password": "patient123", "first_name": "Gabrielle", "last_name": "Roux"},
+    {"username": "patient_hugo", "email": "hugo@example.com", "password": "patient123", "first_name": "Hugo", "last_name": "Simon"},
+    {"username": "patient_isabelle", "email": "isabelle@example.com", "password": "patient123", "first_name": "Isabelle", "last_name": "Michel"},
+    {"username": "patient_julien", "email": "julien@example.com", "password": "patient123", "first_name": "Julien", "last_name": "Lefebvre"},
+    {"username": "patient_karine", "email": "karine@example.com", "password": "patient123", "first_name": "Karine", "last_name": "Mercier"},
+    {"username": "patient_louis", "email": "louis@example.com", "password": "patient123", "first_name": "Louis", "last_name": "Blanc"},
+    {"username": "patient_marine", "email": "marine@example.com", "password": "patient123", "first_name": "Marine", "last_name": "Guerin"},
+    {"username": "patient_nathan", "email": "nathan@example.com", "password": "patient123", "first_name": "Nathan", "last_name": "Boyer"},
+    {"username": "patient_olivia", "email": "olivia@example.com", "password": "patient123", "first_name": "Olivia", "last_name": "Faure"},
 ]
 
 patients = []
@@ -133,8 +146,8 @@ ai_statuses = [
 ]
 
 for device in devices:
-    # Créer 10 mesures par device sur les 7 derniers jours
-    for j in range(10):
+    # Créer 30 mesures par device sur les 30 derniers jours
+    for j in range(30):
         # Générer des valeurs réalistes
         is_healthy = random.random() > 0.3  # 70% de chances d'être sain
         
@@ -154,7 +167,7 @@ for device in devices:
             ai_status = random.choice([1, 2, 3])
         
         # Créer SensorData
-        created_at = timezone.now() - timedelta(days=random.randint(0, 7), hours=random.randint(0, 23))
+        created_at = timezone.now() - timedelta(days=random.randint(0, 30), hours=random.randint(0, 23))
         
         sensor_data = SensorData.objects.create(
             device=device,
@@ -195,7 +208,7 @@ for device in devices:
     device.last_data_at = timezone.now()
     device.save()
     
-    print(f"  ✓ 10 mesures créées pour {device.user.username}")
+    print(f"  ✓ 30 mesures créées pour {device.user.username}")
 
 # ============================================================
 # 5. CRÉATION DES ALERTES
@@ -211,8 +224,8 @@ alertes_templates = [
 ]
 
 for patient in patients:
-    # Créer 2-4 alertes par patient
-    num_alertes = random.randint(2, 4)
+    # Créer 3-7 alertes par patient
+    num_alertes = random.randint(3, 7)
     for _ in range(num_alertes):
         template = random.choice(alertes_templates)
         Alert.objects.create(
@@ -243,7 +256,7 @@ messages_templates = [
 for patient in patients:
     if patient.medecin:
         # Messages du médecin vers le patient
-        for _ in range(random.randint(2, 4)):
+        for _ in range(random.randint(3, 6)):
             msg = Message.objects.create(
                 sender=patient.medecin,
                 receiver=patient,
@@ -254,7 +267,7 @@ for patient in patients:
             msg.save(update_fields=['created_at'])
         
         # Messages du patient vers le médecin
-        for _ in range(random.randint(1, 3)):
+        for _ in range(random.randint(2, 5)):
             msg = Message.objects.create(
                 sender=patient,
                 receiver=patient.medecin,
