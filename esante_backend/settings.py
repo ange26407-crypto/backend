@@ -124,8 +124,11 @@ CORS_ALLOWED_ORIGINS = [
     "https://frontend-app-nine-delta.vercel.app",
 ]
 
-# En production, autoriser tous les domaines Vercel et Render
-CORS_ALLOW_ALL_ORIGINS = os.environ.get('CORS_ALLOW_ALL', 'False') == 'True'
+# En production, autoriser tous les domaines
+if not DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ALLOW_ALL_ORIGINS = os.environ.get('CORS_ALLOW_ALL', 'False') == 'True'
 
 CORS_ALLOW_CREDENTIALS = True
 
